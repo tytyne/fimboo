@@ -1,0 +1,156 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "AFN",
+        "description": "AFN",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "AFN",
+            "description": "API AFN project"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "definitions": {
+        "User": {
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "required": true
+                },
+                "email": {
+                    "type": "string",
+                    "required": true
+                },
+                "password": {
+                    "type": "string",
+                    "required": true
+                }
+
+            }
+        },
+        "Profile": {
+            "properties": {
+                "firstname": {
+                    "type": "string",
+                    "required": true
+                },
+                "lastname": {
+                    "type": "string",
+                    "required": true
+                },
+                "gender": {
+                    "type": "string",
+                    "enum":["female","male","prefer not to say"],
+                    "required": true
+                },
+                "birthdate": {
+                    "type": "date",
+                    "required": true
+                },
+                "country": {
+                    "type": "string",
+                    "required": true
+                },
+                "nationality": {
+                    "type": "string",
+                    "required": true
+                },
+                "province": {
+                    "type": "string",
+                    "required": true
+                },
+                "district": {
+                    "type": "string",
+                    "required": true
+                },
+                "phone": {
+                    "type": "string",
+                    "required": true
+                },
+                "proffesion": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+
+        "Business": {
+            "properties": {
+                "business_name": {
+                    "type": "string",
+                    "required": true
+                },
+                "logo": {
+                    "type": "string",
+                    "required": true
+                },
+                "country": {
+                    "type": "string",
+                    "required": true
+                },
+                "province": {
+                    "type": "string",
+                    "required": true
+                },
+                "district": {
+                    "type": "string",
+                    "required": true
+                },
+                "sector": {
+                    "type": "string",
+                    "required": true
+                },
+                "phone": {
+                    "type": "string",
+                    "required": true
+                },
+                "currency": {
+                    "type": "string",
+                    "default":"RWF",
+                    "enum":["RWF","USD","EURO"]
+                },
+                "tin": {
+                    "type": "string",
+                    "required": true
+                },
+                "website": {
+                    "type": "string",
+                    "required": true
+                },
+                "workspace": {
+                    "type": "string",
+                    "required": true
+                },
+                "about_business": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "Role": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "enum":["employee","admin","disable"]
+                       
+                }
+            }
+        }
+    }
+}
