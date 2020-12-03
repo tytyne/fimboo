@@ -13,5 +13,6 @@ export default {
     passwordReset:"The link to reset password sent succesfully to your email!",
     passwordMatch:"password don't match",
     passwordUpdated:"password updated succesfully!",
-    resend:"confirmation email resend succesfully!"
+    resend:"confirmation email resend succesfully!",
+    loggedin:"successfully logged in",
   };

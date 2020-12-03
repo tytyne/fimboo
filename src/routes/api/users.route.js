@@ -1,3 +1,4 @@
+
 import express from "express";
 import userController from "../../controllers/user.controller.js";
 import authMiddleware from "../../middlewares/auth.js";
@@ -7,7 +8,7 @@ const { checkEmailExist,checkUsernameExist } = authMiddleware;
 import AuthControllers from "../../controllers/socialMediaController.js";
 import resetController from "../../controllers/reset.controller"
 import{validatePassword,validateEmail} from "../../middlewares//validatorMiddleware"
-
+import loginController from "../../controllers/login.controller.js"
 const router = express.Router();
 
 router.get("/user", (req, res) => {
@@ -21,7 +22,7 @@ router.put("/user", (req, res) => {
 router.post("/user/signup",validateSignup,[checkEmailExist,checkUsernameExist],userController.signup);
 router.post("/user/resend",userController.resend)
 router.post("/user/confirmation/:token",userController.confirmation);
-
+router.post("/user/login",loginController.login)
 router.get(
   "/user/login/google",
   passport.authenticate("google", { scope: ["profile", "email"] })

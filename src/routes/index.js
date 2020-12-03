@@ -14,5 +14,4 @@ router.get("/api", (req, res) => {
 
 router.use(baseUrl, api);
 
-
 export default router;

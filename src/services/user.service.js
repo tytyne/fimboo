@@ -46,4 +46,66 @@ export default class UserServices {
       })
     return users
   }
+
+
+  static async getUserByEmail(value) {
+    let users;
+        users = await User.findOne({ where: { email: value }});
+
+      return users;
+    }
+    
+
+static async getUserByUsername(value) {
+  let users;
+      users = await User.findOne({ where: { username: value }});
+
+    return users;
+  }
+  
+
+
+static async getUserByUsernameOrEmail(value) {
+  let users;
+  if (validator.isEmail(value)) {
+    users = await User.findOne({ where: { email: value } });
+    return users;
+  }
+  return await User.findOne({ where: { username: value } });
 }
+
+static async retrieveUserById(value) {
+  const users = await User.findOne({
+      where: {id:value},
+      attributes: {exclude: "password"}
+  })
+  return users      
+}
+
+static async getAllUsers() {
+  let users;
+      users = await User.findAll( {attributes: {exclude: "password"}})
+
+  return users;
+  }
+
+  static async updateUserInfo(updates,id){
+
+    const users = await User.update(updates,{where: { id:id },attributes: {exclude: ["email","password"]}, returning: true })
+
+    return users
+  }
+    static async changingPassword(hash,id){
+    const users = await User.update(
+      { password: hash },
+      {
+      where: { id:id},
+      returning: true,
+      plain: true,
+      }
+  );
+    return users
+  }
+
+}
+

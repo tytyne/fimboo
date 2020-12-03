@@ -8,14 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING
-      },
-
       firstname: {
         type: Sequelize.STRING
       },
       lastname: {
+        type: Sequelize.STRING
+      },
+      username: {
         type: Sequelize.STRING
       },
       email: {
@@ -24,19 +23,21 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      firstname: {
-        type: Sequelize.STRING
-      },
-      lastname: {
-        type: Sequelize.STRING
-      },
+
       isVerified:{
         type:Sequelize.BOOLEAN,
         defaultValue:false
+
       },
-      provider: {
+
+      provider:{
+        type:Sequelize.STRING,
+        defaultValue:'local'
+
+      },
+       profilePicture: {
         type: Sequelize.STRING,
-        defaultValue:"local"
+        defaultValue:'https://res.cloudinary.com/fimboo/image/upload/v1609507499/profile_pictures/profile-icon-png-898_rashbu.png'
       },
       gender:{
         type:Sequelize.DataTypes.ENUM('female','male', 'prefer not to say'),
@@ -44,7 +45,9 @@ module.exports = {
       birthdate: {
         type: Sequelize.DATE
       },
-     
+      age:{
+        type:Sequelize.INTEGER
+      },
       nationality: {
         type: Sequelize.STRING
       },
@@ -57,11 +60,18 @@ module.exports = {
       district: {
         type: Sequelize.STRING
       },
+      countryCode:{
+        type: Sequelize.STRING
+      },
       phone: {
         type: Sequelize.STRING
       },
       proffession: {
         type: Sequelize.STRING
+      },
+      status:{
+        type:Sequelize.ENUM('active','unactive'),
+        defaultValue:"active"
       },
       createdAt: {
         allowNull: false,
