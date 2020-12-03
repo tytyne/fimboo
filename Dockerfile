@@ -1,6 +1,17 @@
-FROM node:latest 
+FROM node:latest
+
+# Create app directory
 WORKDIR /app
-COPY package.json /app
+
+# Install app depencies
+COPY package*.json ./
+
 RUN npm install
-COPY . /app
-CMD ["npm","start"]
+
+# Bundle app source
+COPY . .
+
+# Binding to PORT 4000
+EXPOSE 4000
+
+CMD ["node", "src/index.js"]

@@ -13,4 +13,8 @@ module.exports = {
     url: process.env.DATABASE_URL,
     dialect: 'postgres',
   },
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 30c139d... (chore(installation):setup installation
