@@ -9,7 +9,7 @@
             "url": "https://opensource.org/licenses/MIT"
         }
     },
-    "host": "localhost:5000",
+    "host": "localhost:4000",
     "basePath": "/",
     "tags": [
         {
@@ -26,10 +26,138 @@
     "produces": [
         "application/json"
     ],
+    "paths": {
+       
+        "/api/v1/user/signup": {
+          "post": {
+            "tags": [
+              "user router"
+            ],
+            "description": "user signup",
+            "parameters": [
+              {
+                "name": "body",
+                "in": "body",
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            ],
+            "responses": {
+              "201": {
+                "description": "Signer Up successfully",
+                "schema": {
+                  "type":"array",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+    
+      
+        "/api/v1/user/confirmation/{token}": {
+          "post": {
+            "tags": [
+              "user router"
+            ],
+            "description": "user email confirmation",
+            "parameters": [
+              {
+                "name": "token",
+                "in": "path",
+                "required": true,
+                "description": "token from email account",
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "The account has been verified. Please log in.",
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          }
+        },
+    
+        "/api/v1/user/resend": {
+          "post": {
+            "tags": [
+              "user router"
+            ],
+            "description": "resend confirmation email",
+            "parameters": [
+              {
+                "name": "email",
+                "in": "body",
+                "required": true,
+                "description": "email used in registration",
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "confirmation email resend succesfully!",
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          }
+        },
+        "components": {
+            "schemas": {
+              "User": {
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "Warrior"
+                  },
+                 
+                  "firstname": {
+                    "type": "string",
+                    "example": "user"
+                  },
+                  "lastname": {
+                    "type": "string",
+                    "example": "Gorba Koks"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "strikers668@gmail.vom"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "kaka"
+                  }
+                },
+                "required": [
+                  "username",
+                  "firstname",
+                  "lastname",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+            
+    
     "definitions": {
         "User": {
             "properties": {
                 "username": {
+                    "type": "string",
+                    "required": true
+                },
+                "firstname": {
+                    "type": "string",
+                    "required": true
+                },
+                "lastname": {
                     "type": "string",
                     "required": true
                 },
@@ -40,20 +168,20 @@
                 "password": {
                     "type": "string",
                     "required": true
+                },
+                "isVerified":{
+                    "type":"boolean"
+                },
+                "provider":{
+                    "type":"string"
                 }
+
 
             }
         },
         "Profile": {
             "properties": {
-                "firstname": {
-                    "type": "string",
-                    "required": true
-                },
-                "lastname": {
-                    "type": "string",
-                    "required": true
-                },
+              
                 "gender": {
                     "type": "string",
                     "enum":["female","male","prefer not to say"],
@@ -153,4 +281,5 @@
             }
         }
     }
+}
 }

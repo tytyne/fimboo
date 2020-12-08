@@ -1,51 +1,45 @@
-import express from "express"
-import bodyparser from "body-parser" 
+import express from "express";
+import bodyparser from "body-parser";
+import methodoverride from "method-override";
+import cors from "cors";
 import path from "path";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "../swagger.json";
-import cors from "cors";
-import { Sequelize } from "sequelize"
-import {development} from "./database/config/config.js"
+import passport from "passport";
+import dotenv from "dotenv";
+import morgan from "morgan";
+import swaggerDoc from "../swagger.json";
+import routes from "./routes/index.js";
+import i18n from "./utils/i18n";
 
-//global ...
-const app = express()
-app.use(cors())
 
-//CONNECTING APP TO POSTGRESS
+dotenv.config();
 
-const sequelize = new Sequelize(development.url,{
-    dialect: 'postgres' 
-  });
-
-const connectDb = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-      } catch (error) {
-        console.error('Unable to connect to the database:', error);
-      }
-}
-connectDb();
+const __dirname = path.resolve();
+const app = express();
 
 app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(morgan("dev"));
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(methodoverride());
+app.use(express.static(`${__dirname}/public`));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use(i18n.init);
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get("/",(req,res)=>{
-  res.send("hello the!")
-})
-app.use((req, res, next) => {
-  const err = new Error("Not Found");
-  err.status = 404;
-  next(err);
+app.get("/home", (req, res, next) => res.status(200).json({
+  message: res.__("welcome"),
+}));
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(routes);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use(routes);
+
+// finally, let's start our server...
+const port = process.env.PORT || 4000;
+const server = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
-
-
-const port=process.env.PORT||4000
-
-const server=app.listen(port,()=>{
-
-    console.log(`listen to ${port}`)
-})
-
 export default server;
