@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = (sequelize, DataTypes) => {
   const Business = sequelize.define('Business', {
 
@@ -11,10 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     sector:DataTypes.STRING,
     cell:DataTypes.STRING,
     phone:DataTypes.STRING,
-    currency:{
-      type:DataTypes.ENUM('USD','RWF', 'EURO'),
-      defaultValue:'RWF'
-    },
+    currency:DataTypes.ENUM,
     tin:DataTypes.STRING,
     website:DataTypes.STRING,
     workspace:DataTypes.STRING,

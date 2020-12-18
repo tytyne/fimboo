@@ -17,7 +17,20 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-     
+      firstname: {
+        type: Sequelize.STRING
+      },
+      lastname: {
+        type: Sequelize.STRING
+      },
+      isVerified:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:false
+      },
+      provider: {
+        type: Sequelize.STRING,
+        defaultValue:"local"
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
