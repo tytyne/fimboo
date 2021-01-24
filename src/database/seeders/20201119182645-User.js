@@ -7,19 +7,13 @@ module.exports = {
      "Users", [
     {
     username:'tytyne',
-    email:'tytyne@example.com',
+    email:'tytyne@gmail.com',
     password:'tytyne1234',
     firstname:'dusabe',
     lastname:'florentine',
-    gender:'female',
-    birthdate:'05/05/1994',
-    country:'rwanda',
-    nationality:'rwandese',
-    province:'kigali',
-    district:'kicukiro',
-    phone:'07814406117',
-    proffession:'software developer',
-    isBetaMember: false
+    isVerified:false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
     }
   ], {});
     
