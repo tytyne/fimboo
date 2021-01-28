@@ -3,7 +3,7 @@ import customMessage from "../utils/customMessage.js";
 import helper from "../utils/helpers.js";
 import responses from "../utils/responses.js";
 import statusCode from "../utils/statusCode.js";
-import email from "../utils/email.js";
+import Mailer from "../utils/mail/mailer";
 import {jwtToken} from "../utils/jwt.utils.js"
 
 
@@ -12,7 +12,7 @@ const { hashPassword } = helper;
 const { signedup,accountVerified,emailAssociate,thisAccountVerified,resend,userVerification} = customMessage;
 const { created,ok,badRequest } = statusCode;
 const { successResponse,errorResponse } = responses;
-const { sendConfirmationEmail,verifyConfirmation } = email;
+
 /**
  * @description this controller deals with user signup
  */
@@ -32,9 +32,27 @@ export default class UserControllers {
       formData.password = hashPassword(textPassword);
       const user = await createUser(formData);
       const token = jwtToken.createToken(user);
-      await sendConfirmationEmail(user,token);
+
+      const mail = new Mailer({
+        to: `${user.username} <${user.email}>`,
+        header: 'Confirm your email',
+        messageHeader: `Hi, <strong>${user.firstname}!</strong>`,
+        messageBody: 'You are requesting to confirm your email, Click the following Button to confirm your email.',
+        optionLink: `${process.env.APP_URL}/api/${process.env.API_VERSION}/user/confirmation/${token}`,
+        browserMessage:`If that doesn't work, copy and paste this link into your browser`,
+        Button:true
+      });
+      mail.InitButton({
+        text: 'Confirm Your Email',
+        link: `${process.env.FRONTEND_URL}/api/${process.env.API_VERSION}/confirmEmail?email=${user.email}&token=${token} `
+      });
+      await mail.sendMail();
+      
       return successResponse(res, created, token, signedup, user);
     }
+
+
+ 
   
     catch(e){
       return next(new Error(e))
@@ -50,7 +68,18 @@ export default class UserControllers {
       const {token}=req.params
       const decoded = jwtToken.verifyToken(token);
       const user=await getUserByIdOrEmail(decoded.email)
-      await verifyConfirmation(user.dataValues);
+      const mail = new Mailer({
+        to: `${user.username} <${user.email}>`,
+        header: 'Thank you for confirmation',
+        messageHeader: `Hi, <strong>${user.firstname}!</strong>`,
+        messageBody: 'Thank you for confirming your email,your email confirmed successfully.',
+        browserMessage:"",
+        Button:"",
+        optionLink:""
+      });
+    
+      await mail.sendMail();
+
       if(user.dataValues.isVerified) 
       return successResponse(res,badRequest,userVerification);
       const userUpdated=await updateUser(decoded)
@@ -75,7 +104,21 @@ export default class UserControllers {
       if(!user) return errorResponse(res,badRequest,emailAssociate)
       if(user.isVerified) return errorResponse(res,badRequest,thisAccountVerified)
       const token = jwtToken.createToken(user)
-      await sendConfirmationEmail(user,token);
+      const mail = new Mailer({
+        to: `${user.username} <${user.email}>`,
+        header: 'Confirm your email',
+        messageHeader: `Hi, <strong>${user.firstname}!</strong>`,
+        messageBody: 'You are requesting to confirm your email, Click the following Button to confirm your email.',
+        optionLink: `${process.env.APP_URL}/api/${process.env.API_VERSION}/user/confirmation/${token}`,
+        browserMessage:`If that doesn't work, copy and paste this link into your browser`,
+        Button:true
+      });
+      mail.InitButton({
+        text: 'Confirm Your Email',
+        link: `${process.env.FRONTEND_URL}/api/${process.env.API_VERSION}/confirmEmail?email=${user.email}&token=${token} `
+      });
+      await mail.sendMail();
+
       return successResponse(res,ok, token,resend,user);
 
     }

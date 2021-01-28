@@ -7,7 +7,7 @@ module.exports = {
       {
         firstname: "tytyne",
         lastname: "dusa",
-        email:"dusaflora1@gmail.com",
+        email:"dusaflora1@example.com",
         username:"tytyne",
         isVerified:false,
         password: await hashPassword("tytyne12345"),

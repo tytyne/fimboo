@@ -5,7 +5,7 @@ import authMiddleware from "../../middlewares/auth.js";
 import{validateSignup} from "../../middlewares/validatorMiddleware.js"
 import passport from "passport";
 const { checkEmailExist,checkUsernameExist } = authMiddleware;
-import AuthControllers from "../../controllers/socialMediaController.js";
+import AuthControllers from "../../controllers/socialMedia.controller.js";
 import resetController from "../../controllers/reset.controller"
 import{validatePassword,validateEmail} from "../../middlewares//validatorMiddleware"
 import loginController from "../../controllers/login.controller.js"
@@ -21,7 +21,7 @@ router.put("/user", (req, res) => {
 
 router.post("/user/signup",validateSignup,[checkEmailExist,checkUsernameExist],userController.signup);
 router.post("/user/resend",userController.resend)
-router.post("/user/confirmation/:token",userController.confirmation);
+router.get("/user/confirmation/:token",userController.confirmation);
 router.post("/user/login",loginController.login)
 router.get(
   "/user/login/google",
@@ -56,7 +56,7 @@ router.get("/user/logout", (req, res, next) => {
   res.redirect("/api");
 });
 
-router.post("/auth/forgot_password",validateEmail,resetController.forgetPassword)
-router.post("/auth/reset_password/:token",validatePassword,resetController.resetPassword)
+router.post("/user/forgot_password",validateEmail,resetController.forgetPassword)
+router.post("/user/reset_password/:token",validatePassword,resetController.resetPassword)
 
 export default router;

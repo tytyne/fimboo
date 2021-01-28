@@ -106,6 +106,18 @@ static async getAllUsers() {
   );
     return users
   }
+  static async updatePassword(hash, decoded) {
+    const users = await User.update(
+      { password: hash },
+      {
+        where: { id: decoded.id },
+        returning: true,
+        plain: true,
+      }
+    );
+    return users;
+  }
+  
 
 }
 
