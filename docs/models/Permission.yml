@@ -1,0 +1,6 @@
+definitions:
+  Permission:
+    type: "object"
+    properties:
+      permissionName:
+        type: "string"

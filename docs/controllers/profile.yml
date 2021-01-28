@@ -1,0 +1,165 @@
+/api/v1/user/update/profile:
+  put:
+    tags:
+      - Profile
+    summary: "Edit user profile"
+    description: "Profile Creation"
+    produces:
+      - "application/json"
+    parameters:
+      - in: "query"
+        name: "token"
+        type: "string"
+        required: true
+        description: "Bearer Token"
+      - in: "formData"
+        name: "firstname"
+        type: "string"
+        required: false
+        description: "firstname of a user"
+      - in: "formData"
+        name: "lastname"
+        type: "string"
+        required: false
+        description: "lastname of the user."
+      - in: "formData"
+        name: "username"
+        type: "string"
+        required: false
+        description: "username"
+      - in: "formData"
+        name: "profilePicture"
+        type: "file"
+        required: false
+        description: "profile picture of the user"
+      - in: "formData"
+        name: "gender"
+        type: "string"
+        required: false
+        description: "gender of the user"  
+      - in: "formData"
+        name: "birthdate"
+        type: "number"
+        required: false
+        description: "Date of birth(format: 1994-03-18)"
+      - in: "query"
+        name: "nationality"
+        type: "number"
+        required: false
+        description: "nationality of the user"
+      - in: "formData"
+        name: "country"
+        type: "string"
+        required: false
+        description: "country of the user"
+
+      - in: "formData"
+        name: "province"
+        type: "string"
+        required: false
+        description: "province of the user"
+      - in: "formData"
+        name: "district"
+        type: "string"
+        required: false
+        description: "district of the user"
+      - in: "formData"
+        name: "countryCode"
+        type: "string"
+        required: false
+        description: "country code of the user (format: 250)"
+      - in: "formData"
+        name: "phone"
+        type: "string"
+        required: false
+        description: "phone of the user (format: 781449311)" 
+
+      - in: "formData"
+        name: "preferedLanguage"
+        type: "string"
+        required: false
+        description: "The language a user prefers (format: en)"
+
+      - in: "formData"
+        name: "proffesion"
+        type: "string"
+        required: false
+        description: "proffession of the user"
+
+      - in: "formData"
+        name: "proffession"
+        type: "string"
+        required: false
+        description: "Date and Time of the event(format: 1994-03-18)"  
+
+
+    responses:
+      200:
+        description: "Returns User Schema"
+        schema:
+          type: "array"
+          items:
+            - $ref: "#/definitions/User"      
+
+/api/v1/user/view/profile/{id}:
+  get:
+    tags:
+      - Profile
+    name: Get user profile
+    summary: retrieve user profile by ID
+    consumes:
+        - application/json
+    parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: id
+        in: path
+        required: true
+    responses:
+      200:
+            description: Users successfully fetched.
+
+
+/api/v1/user/profile/me:
+  get:
+    tags:
+      - Profile
+    name: Get user profile
+    summary: retrieve my profile
+    consumes:
+        - application/json
+    parameters:
+      - name: Authorization
+        in: headers
+        required: true
+    responses:
+      200:
+            description: "requested user"
+      # 401:
+      #       description: unauthorized            
+
+/api/v1/user/change_password:
+  post:
+      tags:
+        - Profile
+      summary: "change password for registered user"
+      description: "Needed is the registered password only"
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: "Bearer token"
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/Password"
+      responses:
+      "200":
+        description: "password updated succesfully!"
+      # "404":
+      #   description: "Email doesn\"t exist"
+
+

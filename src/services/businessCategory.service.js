@@ -8,7 +8,7 @@ static async createBusinessCategory(category){
    return categories
   }
 static async findCategoryByName(catName){
-    const category = await Business_category.findOne({ where: {name: catName}});
+    const category = await Business_category.findOne({ where: {shortcode: catName}});
     if(category) 
     return category;
 }
@@ -23,17 +23,23 @@ static async allBusinessCategory(){
 
 }
 
-static async updateBusinessCategory(catName,catId){
-    
-    const categories = await Business_category.update({name:catName},{where:{id:catId},returning:true,plain:true})
-
-    return categories
+static async updateBusinessCategory(set, prop) {
+    return await Business_category.update(set, {
+      where: prop,
+    });
 }
+
+static async updateCategory(set,prop) {
+    const categories = await Business_category.update(set, {
+        where: prop,
+      });;
+    return categories;
+  }
 
 
 static async deleteBusinessCategory(categoryId){
 
-    const category = await Business_category.delete({where:{id:categoryId}})
+    const category = await Business_category.destroy({where:{id:categoryId}})
     return category
 }
 

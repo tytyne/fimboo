@@ -1,1 +1,8 @@
-{}
+{
+	"Password is required": "Password is required",
+	"Password must not be empty": "Password must not be empty",
+	" Password should have a minimum length of {#limit}": " Password should have a minimum length of {#limit}",
+	"ConfirmPassword is required": "ConfirmPassword is required",
+	"ConfirmPassword must not be empty": "ConfirmPassword must not be empty",
+	" ConfirmPassword should have a minimum length of {#limit}": " ConfirmPassword should have a minimum length of {#limit}"
+}

@@ -1,0 +1,59 @@
+/api/v1/user/signup:
+  post:
+    tags:
+      - User 
+    summary: "Registers a new User"
+    description: "Adds a new User to the Database"
+    consumes:
+      - application/json
+    produces:
+      - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "User object that needs to be added to the database"
+      required: true
+      schema:
+        $ref: "#/definitions/UserRegistration"
+    responses:
+      200:
+        description: "You signed up successfully"
+
+/api/v1/user/confirmation/{token}:
+  get:
+      tags:
+        - User 
+      summary: "confirm a new user"
+      description: "Needed is the registered email only"
+      consumes:
+      - application/json
+      parameters:
+      - name: token
+        in: path
+        required: true
+      responses:
+      "200":
+        description: "The account has been verified. Please log in" 
+
+/api/v1/user/resend:
+  post:
+      tags:
+        - User
+      summary: "Resend confirmation email"
+      description: "Needed is the registered email only"
+      consumes:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/UserEmail"
+      responses:
+      "200":
+        description: "The link to reset password sent succesfully to your email!"
+      # "404":
+      #   description: "Email doesn\"t exist"  
+
+
+        

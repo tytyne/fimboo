@@ -1,0 +1,12 @@
+definitions:
+  UserLogin:
+    type: "object"
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      email:
+        type: "string"
+     
+      

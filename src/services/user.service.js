@@ -1,10 +1,12 @@
 import models from "../database/models/index.js";
 import "regenerator-runtime/runtime";
+import validator from "validator"
 
-const { User } = models;
-console.log(User)
+
+const { Users } = models;
+
 /**
- * @description This service deals with the User model
+ * @description This service deals with the Users model
  */
 export default class UserServices {
 /**
@@ -13,7 +15,7 @@ export default class UserServices {
    * @return {object} return the created user
    */
   static async createUser(user) {
-    const users = await User.create(user);
+    const users = await Users.create(user);
     const { password, ...result } = users.dataValues;
     return result;
   }
@@ -26,31 +28,32 @@ export default class UserServices {
   static async getUserByIdOrEmail(value) {
     let user;
     if (typeof value === "string") {
-      user = await User.findOne({ where: { email: value } });
+      user = await Users.findOne({ where: { email: value } });
       return user;
     }
-    return await User.findOne({ where: { id: value } });
+    return await Users.findOne({ where: { id: value } });
   }
   static async checkUsername(value) {
     let user;
-      user = await User.findOne({ where: {username: value } });
+      user = await Users.findOne({ where: {username: value } });
       return user; 
   }
 
 
   static async updateUser(decoded){
-    const users = await User.update({isVerified:true}, {
-      where: { id: decoded.id },
+    const users = await Users.update({isVerified:true}, {
+      where: { id: decoded.userId },
       returning: true,
       plain: true,
       })
     return users
   }
 
+ 
 
   static async getUserByEmail(value) {
     let users;
-        users = await User.findOne({ where: { email: value }});
+        users = await Users.findOne({ where: { email: value }});
 
       return users;
     }
@@ -58,7 +61,7 @@ export default class UserServices {
 
 static async getUserByUsername(value) {
   let users;
-      users = await User.findOne({ where: { username: value }});
+      users = await Users.findOne({ where: { username: value }});
 
     return users;
   }
@@ -66,46 +69,80 @@ static async getUserByUsername(value) {
 
 
 static async getUserByUsernameOrEmail(value) {
-  let users;
+  let user;
+
   if (validator.isEmail(value)) {
-    users = await User.findOne({ where: { email: value } });
-    return users;
+    user = await Users.findOne({ where: { email: value } });
+   
+    return user;
   }
-  return await User.findOne({ where: { username: value } });
+
+  return await Users.findOne({ where: { username: value } });
 }
 
 static async retrieveUserById(value) {
-  const users = await User.findOne({
+  const users = await Users.findOne({
       where: {id:value},
       attributes: {exclude: "password"}
   })
   return users      
 }
 
+ /**
+    * @description this service updateUserByRole
+    * @param {object} roleId
+    * @param {object} email
+    * @return {object} updatedUser by role
+    */
+
+   static async updateUserByRole(roleId, email) {
+    const updatedUser = await Users.update({ roleId }, { where: { email } });
+    if (updatedUser) return updatedUser;
+  }
+
+
+
 static async getAllUsers() {
   let users;
-      users = await User.findAll( {attributes: {exclude: "password"}})
+      users = await Users.findAll( {attributes: {exclude: "password"}})
 
   return users;
   }
 
   static async updateUserInfo(updates,id){
 
-    const users = await User.update(updates,{where: { id:id },attributes: {exclude: ["email","password"]}, returning: true })
+    const users = await Users.update(updates,{where: { id:id },attributes: {exclude: ["email","password","username"]}, returning: true })
 
     return users
   }
     static async changingPassword(hash,id){
-    const users = await User.update(
+    const users = await Users.update(
       { password: hash },
       {
-      where: { id:id},
+        where: { id:id },
       returning: true,
       plain: true,
       }
   );
     return users
   }
+  static async updatePassword(hash, decoded) {
+    const users = await Users.update(
+      { password: hash },
+      {
+        where: { id: decoded.userId },
+        returning: true,
+        plain: true,
+      }
+    );
+    return users;
+  }
+  static async updateRememberMe(id, state) {
+    const updatedUser = await Users.update({ rememberMe: state }, { where: { id } });
+    return updatedUser;
+  }
+  
+  
 
 }
 

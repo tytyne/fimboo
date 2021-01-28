@@ -1,0 +1,6 @@
+definitions:
+  Business:
+    type: "object"
+    properties:
+      name:
+        type: "string"

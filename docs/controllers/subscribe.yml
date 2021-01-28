@@ -1,0 +1,42 @@
+/api/v1/user/subscribe:
+  get:
+    tags:
+      - ["subscribe unsubscribe"]
+    summary: "Subscribe a user to newsletter"
+    description: "Adds a new User to the mailchimp"
+    consumes:
+      - "application/json"
+    produces:
+      - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "User to be added to mailchimp list"
+      required: true
+      schema:
+        $ref: "#/definitions/UserRegistration"
+    responses:
+      200:
+        description: " "
+
+/api/v1/user/unsubscribe:
+  post:
+    tags:
+      - ["subscribe unsubscribe"]
+    summary: "Remove a user to a mailchimp list"
+    description: "unsubscribe a user"
+    consumes:
+      - "multipart/form-data"
+      - "application/json"
+    produces:
+      - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "email is needed"
+      required: true
+      schema:
+        $ref: "#/definitions/UserEmail"
+    responses:
+      200:
+        description: " "        

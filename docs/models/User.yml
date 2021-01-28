@@ -1,0 +1,41 @@
+definitions:
+  User:
+    type: "object"
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      username:
+        type: "string" 
+      profilePicture:
+        type: "string"
+      gender:
+        type: "string"
+        enum:
+          - "female"
+          - "male"
+          - "prefer not to say"
+      birthdate:
+        type: "number"
+      age:
+        type: "string"
+      nationality:
+        type: "string"
+      country:
+        type: "number"
+      province:
+        type: "string"
+      district:
+        type: "string"
+      countryCode:
+        type: "string"
+      phone:
+        type: "string"
+      preferedLanguage:
+        type: "string"  
+      proffesional:
+        type: "string"
+     
+          
+       

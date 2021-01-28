@@ -1,9 +1,6 @@
-import fb from "passport-facebook";
-import oauth from "passport-google-oauth20";
-import userServices from "../services/user.service";
+import { Strategy as FacebookStrategy } from "passport-facebook";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import helpers from "../utils/helpers.js";
-const GoogleStrategy = oauth;
-const FacebookStrategy = fb;
 
 const {
   GOOGLE_CLIENT_ID,
@@ -16,9 +13,9 @@ export default (passport) => {
   passport.use(
     new GoogleStrategy(
       {
-        clientID:process.env.GOOGLE_CLIENT_ID,
-        clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL:process.env.CALLBACK_GOOGLE,
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/v1/user/login/google/redirect",
       },
       helpers.oauthCallback
     )
@@ -27,9 +24,9 @@ export default (passport) => {
   passport.use(
     new FacebookStrategy(
       {
-        clientID: process.env.FACEBOOK_CLIENT_ID,
-        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL:process.env.CALLBACK_FACEBOOK,
+        clientID: FACEBOOK_CLIENT_ID,
+        clientSecret: FACEBOOK_CLIENT_SECRET,
+        callbackURL: "/api/v1/user/login/facebook/redirect",
         profileFields: ["id", "email", "displayName"],
       },
       helpers.oauthCallback

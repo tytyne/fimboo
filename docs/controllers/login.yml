@@ -1,0 +1,20 @@
+/api/v1/user/login:
+  post:
+    tags:
+      - User 
+    summary: "Login a user"
+    description: "login a registered user"
+    consumes:
+      - application/json
+    produces:
+      - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "email and password needed"
+      required: true
+      schema:
+        $ref: "#/definitions/Login"
+    responses:
+      200:
+        description: "User logged in successfully"

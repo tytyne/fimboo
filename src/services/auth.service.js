@@ -1,6 +1,6 @@
 import models from "../database/models/index.js";
 
-const { User } = models;
+const { BusinessOwner } = models;
 
 /**
  * @class AuthServices
@@ -13,8 +13,8 @@ export default class AuthServices {
    */
   static async getOrCreateUser(userData) {
     try {
-        console.log(userData)
-      return await User.findOrCreate({
+       
+      return await BusinessOwner.findOrCreate({
         where: { email: userData.email, provider: userData.provider },
         defaults: userData,
       });
